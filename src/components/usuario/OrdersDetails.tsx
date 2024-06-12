@@ -30,9 +30,7 @@ const fetchOrderDetails = async (orderId: string) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-
-        "ngrok-skip-browser-warning": "true",
+        Authorization: `Bearer ${token}`
       },
     });
     return await response.json();

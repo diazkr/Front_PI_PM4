@@ -8,9 +8,7 @@ const fetchUserData = async (userId: string) => {
   try {
     const response = await fetch(`${apiUrl}/users/${userId}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
-
-        "ngrok-skip-browser-warning": "true",
+        Authorization: `Bearer ${token}`
       },
       cache: "no-cache",
     });
