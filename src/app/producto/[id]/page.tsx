@@ -1,33 +1,45 @@
 import Detail from "@/components/productos/Detail";
+import { fetchProductDetail } from "@/fetch/Productos/fetchProductDetail";
 import React from "react";
 
 interface DetailPageProps {
-    params: {
-      id: string;
-    };
-  }
-
-export const fetchProductDetail = async (id:string) =>{
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
-    const response = await fetch(`${apiUrl}/products/${id}`,{
-        cache: "no-cache",
-    });
-
-    const productDetail = await response.json();
-    console.log(productDetail)
-    return productDetail;
+  params: {
+    id: string;
+  };
 }
 
-const DetailPage: React.FC<DetailPageProps> =async({params})=>{
+interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  imgUrl: string;
+  rate: number;
+  stock: number;
+  category: any;
+}
 
-    const {id, name, description, price, imgUrl, rate, stock, category } = await fetchProductDetail(params.id);
-    return <div className="mt-12">
-
-        <Detail id = {id} name={name} description={description} price={price} imgUrl={imgUrl} rate={rate} stock={stock} category={category}></Detail>
-        
+const DetailPage: React.FC<{ product: Product }> = ({ product }) => {
+  return (
+    <div className="mt-12">
+      <Detail
+        id={product.id}
+        name={product.name}
+        description={product.description}
+        price={product.price}
+        imgUrl={product.imgUrl}
+        rate={product.rate}
+        stock={product.stock}
+        category={product.category}
+      />
     </div>
+  );
+};
 
-}
+const Page = async ({ params }: DetailPageProps) => {
+  const product = await fetchProductDetail(params.id);
 
-export default DetailPage;
+  return <DetailPage product={product} />;
+};
+
+export default Page;
